@@ -15,7 +15,6 @@ http.createServer(function(req, res) {
         let response = {"unix": null, "natural": null};
 
         if (parsedDate.isValid()) {
-
             response.unix = parsedDate.format("X");
             response.natural = parsedDate.format("dddd, MMMM Do YYYY");
         }
