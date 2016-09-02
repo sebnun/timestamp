@@ -8,7 +8,8 @@ http.createServer(function(req, res) {
         res.end(`<p>See <a href="https://github.com/sebnun/timestamp">Timestamp</a> for more info.</p>`)
     } else {
         
-        const userDate = decodeURI(req.url.substring(1));
+        //req.url on my server is //something
+        const userDate = decodeURI(req.url.substring(2)); 
         //isNaN(num) true if not a number
         const parsedDate = isNaN(userDate) ? moment(userDate) : moment.unix(userDate);
 
