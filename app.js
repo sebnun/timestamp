@@ -1,10 +1,27 @@
-var express = require('express');
-var app = express();
+const http = require("http");
+const moment = require("moment");
 
-app.get('/', function (req, res) {
-  res.send('timestamp');
-});
+http.createServer(function(req, res) {
 
-app.listen(8081, function () {
-  console.log('Example app listening on port 8081!');
-});
+    if (req.url === "/") {
+        res.writeHead(200, {"Content-Type": "text/html"});
+        res.end(`<p>See <a href="https://github.com/sebnun/timestamp">Timestamp</a> for more info.</p>`)
+    } else {
+        
+        const userDate = decodeURI(req.url.substring(1));
+        //isNaN(num) true if not a number
+        const parsedDate = isNaN(userDate) ? moment(userDate) : moment.unix(userDate);
+
+        let response = {"unix": null, "natural": null};
+
+        if (parsedDate.isValid()) {
+
+            response.unix = parsedDate.format("X");
+            response.natural = parsedDate.format("dddd, MMMM Do YYYY");
+        }
+
+        res.writeHead(200, {"Content-Type": "text/json"});
+        res.end(JSON.stringify(response));
+    }
+
+}).listen(8081);
